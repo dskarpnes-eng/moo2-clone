@@ -1,4 +1,4 @@
-import { PLANET_TYPES, BUILDING_DEFS, COLONY_SHIP_COST, BASE_PRODUCTION_PER_POP, BASE_RESEARCH_PER_POP, BASE_GROWTH_FRACTION } from './data.js';
+import { PLANET_TYPES, BUILDING_DEFS, COLONY_SHIP_COST, TECH_TREE, BASE_PRODUCTION_PER_POP, BASE_RESEARCH_PER_POP, BASE_GROWTH_FRACTION } from './data.js';
 
 function tierBonus(buildingKey, tier, bonusField) {
   if (tier <= 0) return 0;
@@ -63,4 +63,41 @@ export function resolveBuildQueue(planet, production) {
     },
     completed: { kind: 'building', building, tier },
   };
+}
+
+export function getNextAvailableTech(research) {
+  return TECH_TREE.find((tech) => !research.completedTechIds.includes(tech.id)) ?? null;
+}
+
+export function applyResearchProgress(research, points) {
+  if (!research.currentTechId) {
+    return { research, completedTechId: null };
+  }
+
+  const tech = TECH_TREE.find((t) => t.id === research.currentTechId);
+  const newProgress = research.progress + points;
+
+  if (newProgress < tech.cost) {
+    return { research: { ...research, progress: newProgress }, completedTechId: null };
+  }
+
+  return {
+    research: {
+      completedTechIds: [...research.completedTechIds, tech.id],
+      currentTechId: null,
+      progress: 0,
+    },
+    completedTechId: tech.id,
+  };
+}
+
+export function selectResearch(research, techId) {
+  if (research.currentTechId) {
+    return research;
+  }
+  const next = getNextAvailableTech(research);
+  if (!next || next.id !== techId) {
+    return research;
+  }
+  return { ...research, currentTechId: techId };
 }
