@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>MOO2 Core Loop</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header id="top-bar">
+    <div class="stat">Turn <span id="turn-number">1</span></div>
+    <div class="stat">Population <span id="total-population">0</span></div>
+    <div class="stat">Production/turn <span id="total-production">0</span></div>
+    <div class="stat">Research/turn <span id="total-research">0</span></div>
+    <div class="stat">Researching: <span id="current-research-label">None</span></div>
+    <button id="end-turn-btn">End Turn</button>
+  </header>
+
+  <main>
+    <section id="system-map" aria-label="System map"></section>
+    <aside id="planet-detail" aria-label="Planet detail">
+      <p class="placeholder">Select a planet to see details.</p>
+    </aside>
+    <aside id="tech-panel" aria-label="Tech tree"></aside>
+  </main>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>
