@@ -9,9 +9,26 @@ export function loadState() {
   if (!raw) {
     return null;
   }
+  let parsed;
   try {
-    return JSON.parse(raw);
+    parsed = JSON.parse(raw);
   } catch {
     return null;
   }
+
+  if (!isValidGameState(parsed)) {
+    return null;
+  }
+
+  return parsed;
+}
+
+function isValidGameState(value) {
+  return (
+    value !== null &&
+    typeof value === 'object' &&
+    Array.isArray(value.planets) &&
+    typeof value.research === 'object' &&
+    value.research !== null
+  );
 }

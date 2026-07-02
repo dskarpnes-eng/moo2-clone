@@ -13,3 +13,5 @@ Then open http://localhost:8000/index.html
 ## Test
 
     npm test
+
+Requires Node 18 or later — the tests use the built-in `node:test` module, which isn't available in older Node versions.

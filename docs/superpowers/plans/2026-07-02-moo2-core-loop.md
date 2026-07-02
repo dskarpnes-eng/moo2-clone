@@ -14,7 +14,7 @@
 - Game logic (`data.js`, `state.js`, `logic.js`) must be pure functions with no DOM or `localStorage` access, so `node --test` can run them without a browser.
 - State is never mutated in place — every logic function returns a new object.
 - Persist full game state to `localStorage` after every turn resolution and after every player action that changes state.
-- Single linear tech track (8 fixed techs), single buildable ship type (Colony Ship), single star system (5 planets), no combat/diplomacy/AI — exactly as scoped in the design doc.
+- Single linear tech track (9 fixed techs), single buildable ship type (Colony Ship), single star system (5 planets), no combat/diplomacy/AI — exactly as scoped in the design doc.
 
 ---
 

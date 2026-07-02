@@ -47,6 +47,7 @@ export function resolveBuildQueue(planet, production) {
     };
   }
 
+  // Excess progress beyond cost is intentionally discarded here, not carried over to the next build.
   if (planet.buildQueue.kind === 'colonyShip') {
     return {
       planet: { ...planet, buildQueue: null },
@@ -65,6 +66,13 @@ export function resolveBuildQueue(planet, production) {
   };
 }
 
+export function isBuildingTierUnlocked(research, building, tier) {
+  return research.completedTechIds.some((techId) => {
+    const tech = TECH_TREE.find((t) => t.id === techId);
+    return tech.unlocks.building === building && tech.unlocks.tier === tier;
+  });
+}
+
 export function getNextAvailableTech(research) {
   return TECH_TREE.find((tech) => !research.completedTechIds.includes(tech.id)) ?? null;
 }
@@ -81,6 +89,7 @@ export function applyResearchProgress(research, points) {
     return { research: { ...research, progress: newProgress }, completedTechId: null };
   }
 
+  // Excess research beyond cost is intentionally discarded, not carried over to the next tech.
   return {
     research: {
       completedTechIds: [...research.completedTechIds, tech.id],
@@ -158,10 +167,7 @@ export function tryQueueBuild(state, planetId, order) {
     if (order.tier !== currentTier + 1) {
       return state;
     }
-    const unlocked = state.research.completedTechIds.some((techId) => {
-      const tech = TECH_TREE.find((t) => t.id === techId);
-      return tech.unlocks.building === order.building && tech.unlocks.tier === order.tier;
-    });
+    const unlocked = isBuildingTierUnlocked(state.research, order.building, order.tier);
     if (!unlocked) {
       return state;
     }

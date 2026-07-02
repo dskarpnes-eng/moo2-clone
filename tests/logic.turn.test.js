@@ -45,6 +45,30 @@ test('resolveTurn completes a queued colony ship and adds it to the unassigned p
   assert.equal(updatedHome.buildQueue, null);
 });
 
+test('resolveTurn sums research across multiple owned planets', () => {
+  let state = createInitialState();
+  // own a second planet directly (bypass colonization for test setup)
+  state = {
+    ...state,
+    planets: state.planets.map((p) =>
+      p.id === 'sol-ii' ? { ...p, owner: 'player', population: 3 } : p
+    ),
+    research: { ...state.research, currentTechId: 'farming' },
+  };
+  const result = resolveTurn(state);
+  // sol-prime pop 5 -> research 5 * 0.5 = 2.5; sol-ii pop 3 -> research 3 * 0.5 = 1.5; total 4.0
+  assert.equal(result.research.progress, 4.0);
+});
+
+test('resolveTurn completes a tech when accumulated research meets its cost', () => {
+  let state = createInitialState();
+  state = { ...state, research: { ...state.research, currentTechId: 'farming', progress: 38 } };
+  // sol-prime pop 5 -> research 2.5 this turn; 38 + 2.5 = 40.5 >= farming cost 40
+  const result = resolveTurn(state);
+  assert.equal(result.research.currentTechId, null);
+  assert.ok(result.research.completedTechIds.includes('farming'));
+});
+
 test('resolveTurn does not mutate the input state', () => {
   const state = createInitialState();
   const frozen = JSON.parse(JSON.stringify(state));

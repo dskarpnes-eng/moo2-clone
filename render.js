@@ -1,4 +1,4 @@
-import { getPlanetOutputs, getNextAvailableTech } from './logic.js';
+import { getPlanetOutputs, getNextAvailableTech, isBuildingTierUnlocked } from './logic.js';
 import { PLANET_TYPES, BUILDING_TYPES, BUILDING_DEFS, TECH_TREE, COLONY_SHIP_COST } from './data.js';
 
 function renderTopBar(state, handlers) {
@@ -119,10 +119,7 @@ function renderPlanetDetail(state, selectedPlanetId, handlers) {
     const nextTier = planet.buildings[building] + 1;
     if (nextTier > 3) continue;
     const tierDef = BUILDING_DEFS[building].tiers[nextTier - 1];
-    const unlocked = state.research.completedTechIds.some((techId) => {
-      const tech = TECH_TREE.find((t) => t.id === techId);
-      return tech.unlocks.building === building && tech.unlocks.tier === nextTier;
-    });
+    const unlocked = isBuildingTierUnlocked(state.research, building, nextTier);
     container.appendChild(
       renderBuildOption(
         planet,

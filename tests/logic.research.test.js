@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { getNextAvailableTech, applyResearchProgress, selectResearch } from '../logic.js';
+import { getNextAvailableTech, applyResearchProgress, selectResearch, isBuildingTierUnlocked } from '../logic.js';
 import { TECH_TREE } from '../data.js';
 
 function baseResearch(overrides = {}) {
@@ -60,4 +60,19 @@ test('selectResearch is a no-op if techId is not the next available tech', () =>
   const research = baseResearch();
   const result = selectResearch(research, 'industrialization'); // farming is next, not industrialization
   assert.deepEqual(result, research);
+});
+
+test('isBuildingTierUnlocked returns false when no relevant tech is completed', () => {
+  const research = baseResearch();
+  assert.equal(isBuildingTierUnlocked(research, 'farm', 1), false);
+});
+
+test('isBuildingTierUnlocked returns true when the exact matching tech is completed', () => {
+  const research = baseResearch({ completedTechIds: ['farming'] }); // unlocks farm tier 1
+  assert.equal(isBuildingTierUnlocked(research, 'farm', 1), true);
+});
+
+test('isBuildingTierUnlocked returns false for a different tier of the same building', () => {
+  const research = baseResearch({ completedTechIds: ['farming'] }); // unlocks farm tier 1, not tier 2
+  assert.equal(isBuildingTierUnlocked(research, 'farm', 2), false);
 });
