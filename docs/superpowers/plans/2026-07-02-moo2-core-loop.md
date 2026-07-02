@@ -889,15 +889,14 @@ export function resolveTurn(state) {
       return planet;
     }
 
-    const grownPlanet = { ...planet, population: growPlanet(planet) };
-    const outputs = getPlanetOutputs(grownPlanet);
+    const outputs = getPlanetOutputs(planet);
     totalResearch += outputs.research;
 
-    const { planet: resolvedPlanet, completed } = resolveBuildQueue(grownPlanet, outputs.production);
+    const { planet: resolvedPlanet, completed } = resolveBuildQueue(planet, outputs.production);
     if (completed?.kind === 'colonyShip') {
       completedColonyShips += 1;
     }
-    return resolvedPlanet;
+    return { ...resolvedPlanet, population: growPlanet(resolvedPlanet) };
   });
 
   const { research } = applyResearchProgress(state.research, totalResearch);

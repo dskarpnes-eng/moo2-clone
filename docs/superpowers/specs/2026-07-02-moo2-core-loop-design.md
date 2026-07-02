@@ -39,15 +39,16 @@ opponents, multiple races) will build on.
 
 - Turn-based, advanced only by an explicit "End Turn" button.
 - On End Turn, in order:
-  1. Each owned planet's population grows toward its max, at a rate driven
-     by planet type/habitability and any growth-boosting building.
-  2. Each owned planet produces Production and Research based on
-     population and buildings.
-  3. Production is applied to that planet's build queue (building or Colony
+  1. Each owned planet produces Production and Research based on the
+     population and buildings it has at the start of the turn.
+  2. Production is applied to that planet's build queue (building or Colony
      Ship); when a queued item's cost is met, it completes.
-  4. Research points accumulate toward the empire's currently selected tech;
+  3. Research points accumulate toward the empire's currently selected tech;
      when met, the tech unlocks and the next tech (if any left) becomes
      selectable.
+  4. Each owned planet's population then grows toward its max, at a rate
+     driven by planet type/habitability and any growth-boosting building —
+     this growth takes effect for next turn's output, not this turn's.
   5. Game state is saved to localStorage.
 - Turn counter increments and is displayed.
 
