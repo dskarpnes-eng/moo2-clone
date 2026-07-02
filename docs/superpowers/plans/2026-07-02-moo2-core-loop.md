@@ -29,7 +29,7 @@
   - `PLANET_TYPES`: `{ [typeKey: string]: { label: string, growthModifier: number } }`
   - `BUILDING_TYPES`: `string[]` — `['farm', 'factory', 'lab']`
   - `BUILDING_DEFS`: `{ [buildingKey: string]: { tiers: { growthBonus?: number, productionBonus?: number, researchBonus?: number, cost: number }[] } }` (tiers array is 0-indexed; tier N in game terms = `tiers[N-1]`)
-  - `TECH_TREE`: `{ id: string, name: string, cost: number, unlocks: { building: string, tier: number } }[]` — exactly 8 entries, in research order
+  - `TECH_TREE`: `{ id: string, name: string, cost: number, unlocks: { building: string, tier: number } }[]` — exactly 9 entries, in research order (each of `farm`, `factory`, `lab` gets tiers 1-3 unlocked exactly once)
   - `COLONY_SHIP_COST`: `number` = `100`
   - `BASE_PRODUCTION_PER_POP`: `number` = `1`
   - `BASE_RESEARCH_PER_POP`: `number` = `0.5`
@@ -55,10 +55,10 @@ import {
   STARTING_COLONY_POPULATION,
 } from '../data.js';
 
-test('TECH_TREE has exactly 8 unique techs unlocking every building tier once', () => {
-  assert.equal(TECH_TREE.length, 8);
+test('TECH_TREE has exactly 9 unique techs unlocking every building tier once', () => {
+  assert.equal(TECH_TREE.length, 9);
   const ids = TECH_TREE.map((t) => t.id);
-  assert.equal(new Set(ids).size, 8, 'tech ids must be unique');
+  assert.equal(new Set(ids).size, 9, 'tech ids must be unique');
 
   for (const tech of TECH_TREE) {
     assert.equal(typeof tech.name, 'string');
@@ -155,6 +155,7 @@ export const TECH_TREE = [
   { id: 'appliedPhysics', name: 'Applied Physics', cost: 120, unlocks: { building: 'lab', tier: 2 } },
   { id: 'advancedFarming', name: 'Advanced Farming', cost: 150, unlocks: { building: 'farm', tier: 3 } },
   { id: 'roboticProduction', name: 'Robotic Production', cost: 180, unlocks: { building: 'factory', tier: 3 } },
+  { id: 'quantumPhysics', name: 'Quantum Physics', cost: 200, unlocks: { building: 'lab', tier: 3 } },
 ];
 
 export const COLONY_SHIP_COST = 100;

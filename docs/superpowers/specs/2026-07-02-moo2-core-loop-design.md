@@ -63,14 +63,15 @@ opponents, multiple races) will build on.
 
 ## Research / tech tree
 
-- Single linear tech track, ~8 techs.
+- Single linear tech track, 9 techs.
 - Player selects the next tech to research (from the next available tech in
   the line — no branching, no choice of order beyond "start it or not").
 - Each tech costs a fixed amount of Research points, accumulated empire-wide
   (not per-planet).
 - Completing a tech unlocks a new building type, or an upgrade tier of an
   existing building type, that becomes available in all planets' build
-  queues going forward. Fixed progression (8 techs):
+  queues going forward. Fixed progression (9 techs — each of the three
+  building types gets exactly 3 tiers unlocked):
   1. Farming — unlocks Farm (+population growth rate)
   2. Industrialization — unlocks Factory (+production)
   3. Basic Physics — unlocks Lab (+research)
@@ -82,6 +83,7 @@ opponents, multiple races) will build on.
      bonus)
   7. Advanced Farming — unlocks Farm III (strongest growth bonus)
   8. Robotic Production — unlocks Factory III (strongest production bonus)
+  9. Quantum Physics — unlocks Lab III (strongest research bonus)
 - "Replaces" means the upgraded tier is what appears in build queues going
   forward; a planet that already completed the lower tier keeps its bonus
   and does not need to rebuild — the queue simply offers the better version
