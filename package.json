@@ -1,0 +1,11 @@
+{
+  "name": "moo2-clone",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Browser-based MOO2-inspired colonization core loop (v0)",
+  "scripts": {
+    "test": "node --test",
+    "start": "python3 -m http.server 8000"
+  }
+}
